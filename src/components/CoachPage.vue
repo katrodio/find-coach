@@ -2,7 +2,7 @@
 	<div>
 		<coach-filter></coach-filter>
 		<section class="coach-panel">
-			<button class="refresh-button" @click="loadData(true)">Обновить</button>
+			<button class="refresh-button" @click="updateData(true)">Обновить</button>
 			<router-link 
 				class="register-button"
 				v-if="$store.state.auth.idToken && !$store.getters['coaches/isCoachCurrentUser']"
@@ -17,14 +17,14 @@
 			</router-link>
 		</section>
 
-		<base-spinner v-if="showSpinner"></base-spinner>
+		<base-spinner v-if="$store.state.coaches.showSpinner"></base-spinner>
 
 		<coach-list></coach-list>
 
 		<teleport to="#app">
 			<transition name="modal">
-				<base-modal v-if="showModal" @closeModal="closeModal">
-					<p>Coaches not found!</p>
+				<base-modal v-if="$store.state.coaches.showModal" @closeModal="closeModal">
+					<p>Тренеры не найдены!</p>
 				</base-modal>
 			</transition>
 		</teleport>
@@ -38,7 +38,7 @@ import BaseModal from './BaseModal.vue';
 import BaseSpinner from './BaseSpinner.vue';
 
 export default {
-  components: { 
+	components: { 
 		CoachFilter,
 		CoachList,
 		BaseModal, 
@@ -46,52 +46,40 @@ export default {
 	},
 	data() {
 		return {
-			showSpinner: false,
-			showModal: false,
+
 		}
 	},
-	created() {
-		this.loadData()
-	},
 	methods: {
-		async loadData(refresh = false) {
+		async updateData(refresh = false) {
 			if (!refresh && !this.$store.getters['coaches/shouldUpdate']) {
 				return;
 			}
-		
-			this.showSpinner = true;
 
-			const response = await fetch(
-				`https://findcoach-d3a2e-default-rtdb.firebaseio.com/coaches.json`, 
-				{
-					method: 'GET'
-				}
-			);
+			this.$store.commit('coaches/toggleSpinner', true);
 
-			if (!response.ok) {
-				this.showModal = true;
-				this.showSpinner = false;
+			const response = await this.$store.dispatch('coaches/loadData');
+
+			if (!response) {
+				this.$store.commit('coaches/toggleModal', true);
+				this.$store.commit('coaches/toggleSpinner', false);
 				return;
 			}
-			const coachesData =	await response.json();
 
-			this.showSpinner = false;
-
-			this.$store.commit('coaches/addCoachesData', coachesData);
+			this.$store.commit('coaches/toggleSpinner', false);
 
 			this.$store.commit('coaches/updateTimeStamp');
 		},
 		closeModal() {
-			this.showModal = false;
-		},
-	}
+			this.$store.commit('coaches/toggleModal', false);
+		}
+	},
 }
 </script>
 
 <style>
 	.coach-panel {
 		max-width: 700px;
-    margin: 20px auto 0;
+		margin: 20px auto 0;
 		display: flex;
 		justify-content: space-between;
 	}
@@ -105,5 +93,14 @@ export default {
 		line-height: 22px;
 		padding: 13px 18px;
 		cursor: pointer;
+		text-align: center;
+	}
+	@media screen and (max-width: 561px) {
+		.coach-panel {
+			flex-direction: column-reverse;
+		}
+		.register-button, .login-button {
+			margin-bottom: 10px;
+		}
 	}
 </style>

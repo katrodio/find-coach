@@ -21,5 +21,10 @@ export default {
 		color: #2B3674;
 		border-radius: 5px;
 	}
+	@media screen and (max-width: 561px) {
+		.base-card {
+			width: 100%;
+		}
+	}
 </style>
 

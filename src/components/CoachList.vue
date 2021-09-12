@@ -9,7 +9,7 @@
 import CoachItem from './CoachItem.vue';
 
 export default {
-  components: { 
+	components: { 
 		CoachItem,
 	},
 	computed: {

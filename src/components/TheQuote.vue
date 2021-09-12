@@ -22,6 +22,7 @@ export default {
 	.quote__text {
 		color: #2B3674;
 		font-size: 24px;
+		line-height: 32px;
 		font-weight: 600;
 		margin: 20px 10px;
 	}

@@ -29,6 +29,25 @@ export default {
 	},
 	created() {
 		this.$store.dispatch('autoAuth');
+		this.loadData();
+	},
+	methods: {
+		async loadData() {
+			
+			this.$store.commit('coaches/toggleSpinner', true);
+
+			const response = await this.$store.dispatch('coaches/loadData');
+
+			if (!response) {
+				this.$store.commit('coaches/toggleModal', true);
+				this.$store.commit('coaches/toggleSpinner', false);
+				return;
+			}
+
+			this.$store.commit('coaches/toggleSpinner', false);
+
+			this.$store.commit('coaches/updateTimeStamp');
+		},
 	}
 }
 </script>

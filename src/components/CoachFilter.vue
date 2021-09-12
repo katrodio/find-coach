@@ -31,7 +31,7 @@ export default {
 <style scoped>
 	.filter {
 		background-color: #ffffff;
-		padding: 30px 20px;
+		padding: 20px;
 		border-radius: 5px;
 		max-width: 700px;
 		margin: 0 auto;
@@ -44,9 +44,11 @@ export default {
 	}
 
 	.check {
+		display: inline-block;
 		font-size: 20px;
 		padding-left: 1.2em;
-		margin-right: 0.6em;
+		margin-right: 0.8em;
+		margin-bottom: 0.8em;
 		cursor: pointer;
 	}
 	.check__input {

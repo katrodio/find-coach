@@ -38,110 +38,110 @@
 
 <script>
 export default {
-  data() {
-    return {
-      userEmail: '',
-      userMessage: '',
-      errors: {},
-    };
-  },
-  methods: {
-    sendForm() {
-      if (this.validateForm()) {
-        const data = { ...this.$data, coachId: this.$route.params.id };
-        delete data.errors;
-        this.$store.dispatch('requests/contactCoach', data);
+	data() {
+		return {
+			userEmail: '',
+			userMessage: '',
+			errors: {},
+		};
+	},
+	methods: {
+		sendForm() {
+			if (this.validateForm()) {
+				const data = { ...this.$data, coachId: this.$route.params.id };
+				delete data.errors;
+				this.$store.dispatch('requests/contactCoach', data);
 
-        this.redirectTo('/');
-      }
-    },
-    validateForm() {
-      this.errors = {};
+				this.redirectTo('/');
+			}
+		},
+		validateForm() {
+			this.errors = {};
 
-      if (
-        !this.userEmail ||
-        (!this.userEmail.includes('@') && !this.userEmail.includes('.'))
-      ) {
-        this.errors.email =
-          'Поле "Ваша почта" должно быть заполнено и содержать символы "@" and "."';
-      }
-      if (!this.userMessage) {
-        this.errors.message = 'Поле "Сообщение тренеру" не должно быть пустым';
-      }
+			if (
+				!this.userEmail ||
+				(!this.userEmail.includes('@') && !this.userEmail.includes('.'))
+			) {
+				this.errors.email =
+					'Поле "Ваша почта" должно быть заполнено и содержать символы "@" and "."';
+			}
+			if (!this.userMessage) {
+				this.errors.message = 'Поле "Сообщение тренеру" не должно быть пустым';
+			}
 
-      return !Object.keys(this.errors).length;
-    },
-    redirectTo(address) {
-      this.$router.replace(address);
-    },
-  },
+			return !Object.keys(this.errors).length;
+		},
+		redirectTo(address) {
+			this.$router.replace(address);
+		},
+	},
 };
 </script>
 
 <style scoped>
 #registration-form {
-  display: flex;
-  flex-direction: column;
-  max-width: 300px;
+	display: flex;
+	flex-direction: column;
+	max-width: 300px;
 }
 #registration-form p {
-  line-height: 18px;
+	line-height: 18px;
 }
 #registration-form label {
-  color: #2b3674;
-  font-size: 18px;
+	color: #2b3674;
+	font-size: 18px;
 }
 #registration-form label,
 #registration-form input,
 #registration-form p {
-  margin-bottom: 15px;
+	margin-bottom: 15px;
 }
 .registration-form__header {
-  font-size: 20px;
-  line-height: 32px;
-  margin-bottom: 15px;
-  color: #707eae;
+	font-size: 20px;
+	line-height: 32px;
+	margin-bottom: 15px;
+	color: #707eae;
 }
 
 .registration-form__input {
-  border: 1px solid #c7cee0;
-  border-radius: 5px;
-  font-size: 18px;
-  line-height: 22px;
-  padding: 13px 18px;
-  color: #2b3674;
+	border: 1px solid #c7cee0;
+	border-radius: 5px;
+	font-size: 18px;
+	line-height: 22px;
+	padding: 13px 18px;
+	color: #2b3674;
 }
 
 .registration-form__input::-webkit-input-placeholder {
-  color: #707eae;
-  opacity: 0.6;
+	color: #707eae;
+	opacity: 0.6;
 }
 
 .registration-form__input:focus {
-  outline: none;
-  border: 1px solid #4318ff;
+	outline: none;
+	border: 1px solid #4318ff;
 }
 
 .input_error {
-  border: 1px solid #e31a1a !important;
+	border: 1px solid #e31a1a !important;
 }
 
 .input_error::-webkit-input-placeholder {
-  color: #e31a1a;
+	color: #e31a1a;
 }
 
 .registration-form__error {
-  color: #e31a1a;
+	color: #e31a1a;
 }
 
 .registration-form__submit {
-  background: #4318ff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  font-size: 18px;
-  line-height: 22px;
-  padding: 13px 18px;
-  cursor: pointer;
+	background: #4318ff;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	font-size: 18px;
+	line-height: 22px;
+	padding: 13px 18px;
+	cursor: pointer;
 }
 </style>

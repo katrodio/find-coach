@@ -2,7 +2,7 @@
 	<base-card>
 		<div class="coach-info">
 			<div class="coach-info__avatar">
-				<img src="../assets/images/male.svg" alt="avatar">
+				<img :src="avatarPath" :alt="gender">
 			</div>
 			<div class="coach-info__text">
 				<p class="full-name">
@@ -27,11 +27,12 @@
 <script>
 import BaseCard from './BaseCard.vue'
 export default {
-  components: { BaseCard },
+	components: { BaseCard },
 	props: [
 		"id",
 		"name",
 		"lastName",
+		"gender",
 		"price",
 		"specializations",
 		"description",
@@ -39,6 +40,12 @@ export default {
 	computed: {
 		coachDetailURL() {
 			return '/coaches/' + this.id;
+		},
+		avatarPath() {
+			if (!this.gender) {
+				return
+			}
+			return require(`../assets/images/${this.gender}.svg`);
 		}
 	},
 }
@@ -64,6 +71,7 @@ export default {
 	}
 
 	.name, .last-name {
+		display: inline-block;
 		font-size: 28px;
 		font-weight: 600;
 		margin-right: 5px;
@@ -77,6 +85,7 @@ export default {
 		display: inline-block;
 		padding: 8px 16px;
 		margin-right: 5px;
+		margin-bottom: 5px;
 		font-size: 18px;
 		font-weight: 600;
 		line-height: 32px;

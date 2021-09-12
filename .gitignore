@@ -23,3 +23,7 @@ pnpm-debug.log*
 
 tz.txt
 CoachApp.drawio
+.firebase
+.firebaserc
+.github
+firebase.json

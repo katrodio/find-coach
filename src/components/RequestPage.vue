@@ -1,21 +1,28 @@
 <template>
 	<div>
-		<base-modal v-if="showModal" @closeModal="closeModal"></base-modal>
+		<base-modal v-if="showModal" @closeModal="closeModal">
+			<p>Истек срок<br>аутентификации. <br>Войдите заново</p>
+		</base-modal>
 		<base-spinner v-if="showSpinner"></base-spinner>
 		<request-item v-for="request in $store.state.requests" :key="request.id" v-bind="request">
 		</request-item>
-		<p v-if="!$store.state.requests.length && !showSpinner">You haven't received any requests yet!</p>
+		<base-card 
+			v-if="!$store.state.requests.length && !showSpinner">
+			Вы еще не получили ни одного запроса
+		</base-card>
 	</div>
 </template>
 
 <script>
 import RequestItem from './RequestItem.vue';
+import BaseCard from './BaseCard.vue';
 import BaseModal from './BaseModal.vue';
 import BaseSpinner from './BaseSpinner.vue';
 
 export default {
 	components: { 
 		RequestItem,
+		BaseCard,
 		BaseModal,
 		BaseSpinner,
 	},
@@ -46,6 +53,14 @@ export default {
 		this.showSpinner = false;
 
 		this.$store.commit('requests/addRequestData', requestData);
+	},
+	watch: {
+		showModal() {
+			if (!this.showModal) {
+				this.$store.commit('logoutUser');
+				this.$router.push('/auth');
+			}
+		}
 	},
 	methods: {
 		closeModal() {
