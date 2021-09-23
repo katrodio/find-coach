@@ -3,16 +3,21 @@
 		<coach-filter></coach-filter>
 		<section class="coach-panel">
 			<button class="refresh-button" @click="updateData(true)">Обновить</button>
-			<router-link 
+			<router-link
 				class="register-button"
-				v-if="$store.state.auth.idToken && !$store.getters['coaches/isCoachCurrentUser']"
-				to="/registration">
+				v-if="
+					$store.state.auth.idToken &&
+					!$store.getters['coaches/isCoachCurrentUser']
+				"
+				to="/registration"
+			>
 				Зарегистрировать тренера
 			</router-link>
-			<router-link 
+			<router-link
 				class="login-button"
 				v-if="!$store.state.auth.idToken"
-				to="/auth?redirect=registration">
+				to="/auth?redirect=registration"
+			>
 				Войти, чтобы зарегистрировать тренера
 			</router-link>
 		</section>
@@ -23,7 +28,10 @@
 
 		<teleport to="#app">
 			<transition name="modal">
-				<base-modal v-if="$store.state.coaches.showModal" @closeModal="closeModal">
+				<base-modal
+					v-if="$store.state.coaches.showModal"
+					@closeModal="closeModal"
+				>
 					<p>Тренеры не найдены!</p>
 				</base-modal>
 			</transition>
@@ -38,16 +46,14 @@ import BaseModal from './BaseModal.vue';
 import BaseSpinner from './BaseSpinner.vue';
 
 export default {
-	components: { 
+	components: {
 		CoachFilter,
 		CoachList,
-		BaseModal, 
+		BaseModal,
 		BaseSpinner,
 	},
 	data() {
-		return {
-
-		}
+		return {};
 	},
 	methods: {
 		async updateData(refresh = false) {
@@ -71,36 +77,39 @@ export default {
 		},
 		closeModal() {
 			this.$store.commit('coaches/toggleModal', false);
-		}
+		},
 	},
-}
+};
 </script>
 
 <style>
+.coach-panel {
+	max-width: 700px;
+	margin: 20px auto 0;
+	display: flex;
+	justify-content: space-between;
+}
+.register-button,
+.login-button,
+.refresh-button {
+	display: inline-block;
+	background: #4318ff;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	font-size: 16px;
+	line-height: 22px;
+	padding: 13px 18px;
+	cursor: pointer;
+	text-align: center;
+}
+@media screen and (max-width: 561px) {
 	.coach-panel {
-		max-width: 700px;
-		margin: 20px auto 0;
-		display: flex;
-		justify-content: space-between;
+		flex-direction: column-reverse;
 	}
-	.register-button, .login-button, .refresh-button {
-		display: inline-block;
-		background: #4318FF;
-		color: white;
-		border: none;
-		border-radius: 5px;
-		font-size: 16px;
-		line-height: 22px;
-		padding: 13px 18px;
-		cursor: pointer;
-		text-align: center;
+	.register-button,
+	.login-button {
+		margin-bottom: 10px;
 	}
-	@media screen and (max-width: 561px) {
-		.coach-panel {
-			flex-direction: column-reverse;
-		}
-		.register-button, .login-button {
-			margin-bottom: 10px;
-		}
-	}
+}
 </style>

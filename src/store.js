@@ -6,7 +6,7 @@ const specializations = {
 		return [
 			{
 				id: '1',
-				name: 'Фронденд',
+				name: 'Фронтенд',
 				active: true
 			},
 			{
@@ -229,7 +229,11 @@ const auth = {
 			});
 
 			if (!response.ok) {
-				throw new Error('Не удалось связаться с сервером');
+				if (response.status === 400) {
+					throw new Error('Ошибка! Введите другие данные');
+				} else {
+					throw new Error('Не удалось связаться с сервером');
+				}
 			}
 
 			const responseData = await response.json();

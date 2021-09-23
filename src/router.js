@@ -12,10 +12,10 @@ const router = createRouter({
 	routes: [
 		{ path: '/', redirect: '/coaches' },
 		{ path: '/coaches', component: CoachPage },
-		{ path: '/auth', component: UserAuth, meta: { requireUnauth: true }},
+		{ path: '/auth', component: UserAuth, meta: { requireUnauth: true } },
 		{ path: '/coaches/:id', component: CoachDetail },
-		{ path: '/registration', component: CoachRegistration, meta: { requireAuth: true }},
-		{ path: '/requests', component: RequestPage, meta: { requireAuth: true }},
+		{ path: '/registration', component: CoachRegistration, meta: { requireAuth: true, requireNotToBeCoach: true } },
+		{ path: '/requests', component: RequestPage, meta: { requireAuth: true } },
 		{ path: '/:notFound(.*)', component: NotFound }
 	],
 	linkActiveClass: 'active',
@@ -25,6 +25,8 @@ router.beforeEach((to, _, next) => {
 	if (to.meta.requireAuth && !store.state.auth.idToken) {
 		next('/auth');
 	} else if (to.meta.requireUnauth && store.state.auth.idToken) {
+		next('/coaches');
+	} else if (to.meta.requireNotToBeCoach && store.getters['coaches/isCoachCurrentUser']) {
 		next('/coaches');
 	} else {
 		next();

@@ -26,7 +26,9 @@
 				type="text"
 				v-model="userMessage"
 			/>
-			<p class="registration-form__error" v-if="'message' in errors">{{ errors.message }}</p>
+			<p class="registration-form__error" v-if="'message' in errors">
+				{{ errors.message }}
+			</p>
 			<input
 				class="registration-form__submit"
 				type="submit"
@@ -60,7 +62,8 @@ export default {
 
 			if (
 				!this.userEmail ||
-				(!this.userEmail.includes('@') && !this.userEmail.includes('.'))
+				!this.userEmail.includes('@') ||
+				!this.userEmail.includes('.')
 			) {
 				this.errors.email =
 					'Поле "Ваша почта" должно быть заполнено и содержать символы "@" and "."';
